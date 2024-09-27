@@ -18,6 +18,8 @@
 
         <h1>Visualizations</h1>
 
+        <!-- I did it this way because I wanted to make it so that it scaled but it didn't work out :( -->
+
         <svg class="hide">
             <symbol id="chart"> <!-- 500 x 400 -->
                 <!-- Bars -->
@@ -65,7 +67,11 @@
                 <!-- X-axis label -->
                 <text x="260" y="390" font-size="12" text-anchor="middle">Decade</text>
             </symbol>
+            <symbol id="art">
+                <!-- insert svg art here -->
+            </symbol>
         </svg>
+
 
         <h2>Class Visualization</h2>
         <figure>
@@ -74,8 +80,11 @@
         </figure>
 
         <h2>SVG Art</h2>
-        <svg viewBox="0 0 20 20"><use xlink:href="#chart"/></svg>
-
+        <figure>
+            <figcaption>Art Created Using JavaScript</figcaption>
+            <svg viewBox="0 0 500 500" width="500" height="500"><use xlink:href="#art"/></svg>
+        </figure>
+        <script src="vis.js"></script>
     </main>
 
     <footer>
