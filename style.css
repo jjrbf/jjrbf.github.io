@@ -36,7 +36,13 @@ h1 {
 }
 
 h2 {
+    font-size: 1.6rem;
+}
+
+h3 {
     font-size: 1.2rem;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
 a {
@@ -208,6 +214,15 @@ figure figcaption {
 
 figure svg {
     background-color: var(--highlight);
+}
+
+figure .vegalite {
+    padding: 2rem;
+    background-color: white;
+}
+
+figure:has(.vegalite) + figure:has(.vegalite) {
+    margin-top: 2rem;
 }
 
 .hide {
