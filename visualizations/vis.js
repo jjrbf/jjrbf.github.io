@@ -1,5 +1,4 @@
 const svg = document.getElementById("art");
-console.log(svg);
 
 // 500 x 500 canvas
 
@@ -11,5 +10,4 @@ for (let i = 0; i < 100; i++) {
     circle.setAttribute("fill", `hsl(${Math.floor(Math.random() * 20) + 70}, ${Math.floor(Math.random() * 60) + 20}%, ${Math.floor(Math.random() * 50) + 30}%)`);
     
     svg.append(circle);
-    console.log(i)
 }
