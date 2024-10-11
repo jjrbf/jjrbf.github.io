@@ -124,7 +124,7 @@ main {
         grid-column: 2 / span 3;
     }
 
-    .home-info p, .home-info .content {
+    .home-info p, .home-info .content, .list {
         grid-column: 2 / span 3;
     }
 
@@ -185,6 +185,23 @@ footer {
         gap: 1rem;
         align-self: center;
     }
+}
+
+/* VISUALIZATIONS STYLING */
+
+.visualization-home {
+    min-height: 80vh;
+    align-content: start;
+}
+
+.list li {
+    margin-bottom: 2rem;
+}
+
+.list li img {
+    max-width: 100%;
+    min-width: 100%;
+    margin-top: 1rem;
 }
 
 /* FIGURE/SVG STYLING */

@@ -35,63 +35,20 @@ async function render() {
         "transform": [
         {"filter": "datum.Year > 1980 && 2018"}
         ],
-        mark: 'line',
+        mark: {type: "circle", tooltip: true},
         data: {values:videogames},
         encoding : {
-        x: {field: "Year", type:"quantitative", scale: {domain: [1981,2017]}}
-        }, 
-        layer: [
-        {
-        encoding: {
-            color: {field: "Genre", type: "nominal", "scale": {"scheme": "category20c"}},
-            y: {type:"quantitative", field: "Global_Sales", aggregate : "sum", title: 'Total Number of Global Sales (per million)'}
+            x: {field: "Year", type:"quantitative", scale: {domain: [1981,2017]}},
+            y: {type:"nominal", field: "Genre", title: 'Genre'},
+            size: {field: "Global_Sales", aggregate: "sum", title: "Global Sales in millions"}
         },
-        layer: [
-            {mark: "line"},
-            {transform: [{filter: {param: "hover", empty: false}}], mark: "point"}
-        ]
-        },
-        {
-        transform: [{pivot: "Genre", value: "Global_Sales", groupby: ["Year"]}],
-        mark: "rule",
-        encoding: {
-            opacity: {
-            condition: {value: 0.3, param: "hover", empty: false},
-            value: 0
-            },
-            tooltip: [
-            {field: "Year", type: "quantitative"},
-            {field: "Action", type: "quantitative"},
-            {field: "Adventure", type: "quantitative"},
-            {field: "Fighting", type: "quantitative"},
-            {field: "Misc", type: "quantitative"},
-            {field: "Platform", type: "quantitative"},
-            {field: "Puzzle", type: "quantitative"},
-            {field: "Racing", type: "quantitative"},
-            {field: "Role-Playing", type: "quantitative"},
-            {field: "Shooter", type: "quantitative"},
-            {field: "Simulation", type: "quantitative"},
-            {field: "Sports", type: "quantitative"},
-            {field: "Strategy", type: "quantitative"}
-            ]
-        },
-        params: [{
-            name: "hover",
-            select: {
-            type: "point",
-            fields: ["Year"],
-            nearest: true,
-            on: "pointerover",
-            clear: "pointerout"
-            }
-        }]
-        }]
     };
 
     vegaEmbed("#view2_1", yourVlSpec);
     
     yourVlSpec = {
         "width": 200,
+        "height": 200,
         data: {values:videogames},
         "mark": {"type": "bar", tooltip: true},
         "encoding": {
@@ -106,50 +63,114 @@ async function render() {
     };
 
     vegaEmbed("#view2_2", yourVlSpec);
+
+    // Function to replace sales_region values
+    const replaceSalesRegion = (gamesArray) => {
+        gamesArray.forEach(game => {
+        switch (game.sales_region) {
+            case "na_sales":
+            game.sales_region = "North America";
+            break;
+            case "jp_sales":
+            game.sales_region = "Japan";
+            break;
+            case "eu_sales":
+            game.sales_region = "Europe";
+            break;
+            case "other_sales":
+            game.sales_region = "Other";
+            break;
+            default:
+            console.log("Unknown sales region:", game.sales_region);
+        }
+        });
+    };
+    
+    // Call the function to replace sales region values
+    replaceSalesRegion(videogamesL);
     
     yourVlSpec = {
         "width": 200,
+        "height": 200,
         "title": '',
-        data: {values:videogamesL},
-        "mark": {"type": "arc", tooltip: true},
+        "data": {values: videogamesL},
+        "transform": [
+            {
+                "aggregate": [{"op": "sum", "field": "sales_amount", "as": "total_sales"}],
+                "groupby": ["platform", "sales_region"]
+            },
+            {
+                "window": [{"op": "rank", "as": "rank"}],
+                "sort": [{"field": "total_sales", "order": "descending"}],
+                "groupby": ["platform"]
+            }
+        ],
+        "mark": {"type": "bar", "tooltip": true},
         "encoding": {
-            facet: {
+            "facet": {
                 "field": "platform",
                 "type": "nominal",
                 "columns": 4,
-                title: "Platform"
+                "title": "Platform"
             },
-            theta: {"field": "sales_amount", type:"quantitative", aggregate: "sum", "stack": "normalize", title: "Percentage of Sales"},
-            color: {"field": "sales_region", type:"nominal", title: "Region", title: "Region"}
+            "y": {"field": "total_sales", "type": "quantitative", "title": "Total Amount of Sales in millions"},
+            "x": {"field": "sales_region", "type": "nominal", "title": "Region"},
+            "color": {
+                "condition": {
+                    "test": "datum.rank === 1",
+                    "value": "red"  // Highlight color for the highest bar
+                },
+                "value": "steelblue"  // Default color for other bars
+            }
         }
     };
 
     vegaEmbed("#view3", yourVlSpec);
+
+    // Function to rename sales columns
+    const renameSalesRegions = (gamesArray) => {
+        gamesArray.forEach(game => {
+        game.North_America = game.NA_Sales;
+        game.Japan = game.JP_Sales;
+        game.Europe = game.EU_Sales;
+        game.Other = game.Other_Sales;
+    
+        // Optionally remove the old columns
+        delete game.NA_Sales;
+        delete game.JP_Sales;
+        delete game.EU_Sales;
+        delete game.Other_Sales;
+        });
+    };
+    
+    // Call the function to rename sales region columns
+    renameSalesRegions(videogames);
     
     yourVlSpec = {
         "width": 800,
         "height": 400,
+        title: "The Cultural Preference in Genre Between North America and Japan",
         "transform": [
-        {filter: "datum.Year > 1980 && datum.Year < 2017"}
+            {filter: "datum.Year > 1980 && datum.Year < 2017"}
         ],
         data: {values:videogames},
-        repeat: {layer: ["NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"]},
+        repeat: {layer: ["North_America", "Japan"]},
         "spec": {
-        mark: {type: 'bar', tooltip: true},
-        "encoding": {
-            "x": {
-                "field": "Genre",
-                "type": "nominal"
-            },
-            "y": {
-                "aggregate": "mean",
-                "field": {"repeat": "layer"},
-                "type": "quantitative",
-                "title": "Average Sales (in millions)"
-            },
-            "color": {"datum": {"repeat": "layer"}, "title": "Region"},
-            "xOffset": {"datum": {"repeat": "layer"}}
-            }
+            mark: {type: 'bar', tooltip: true},
+            "encoding": {
+                "x": {
+                    "field": "Genre",
+                    "type": "nominal"
+                },
+                "y": {
+                    "aggregate": "mean",
+                    "field": {"repeat": "layer"},
+                    "type": "quantitative",
+                    "title": "Average Sales (in millions)"
+                },
+                "color": {"datum": {"repeat": "layer"}, "title": "Region"},
+                "xOffset": {"datum": {"repeat": "layer"}}
+                }
         },
         "config": {
         "mark": {"invalid": null}
