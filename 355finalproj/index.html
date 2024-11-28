@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IAT 355 Final Project</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="full text-only" data-step="1">
+        <h1>How much do your professors make?!?!</h1>
+        <p>A lot of money goes into post-secondary education. Your money, tax-payer money, donation money, and more. But where does it all go?</p>
+    </div>
+    <div class="full text-only" data-step="2">
+        <h2>Post-Secondary education is expensive.</h2>
+        <p>A lot of money goes into post-secondary education. Your money, tax-payer money, donation money, and more. But where does it all go?</p>
+    </div>
+    <div>
+        <div class="full vis-container visualization1">
+            <h3 class="vis-title" id="vis1title">Approx. Income from Student Tuition</h3>
+            <p class="vis-subtitle" id="vis1subtitle">Across BC's top 4 post-secondary institutions </p>
+            <div id="vis1Container"></div>
+            <p class="vis-small" id="vis1small">Calculated using number of students in 2022/2023 × 2022/2023 tuition</p>
+        </div>
+        <div class="full s3" data-step="3">
+            <div class="text-box">This is the approximate income of each university coming from just tuition alone.</div>
+            <div class="text-box">UBC makes hella money. They have a lot of students. But just how much of it goes to their faculty?</div>
+        </div>
+        <div class="full s4" data-step="4">
+            <div class="text-box">This chart shows the average salaries of the top 4 universities in BC.</div>
+            <div class="text-box">UBC's average salary towers over all of the other universities. Why don't we look how the other universities stack up?</div>
+        </div>
+    </div>
+    <div>
+        <div class="full vis-container visualization2">
+            <h3 class="vis-title" id="vis2title">Approx. Income from Student Tuition</h3>
+            <p class="vis-subtitle" id="vis2subtitle">Across all of BC's post-secondary institutions with publicly available data</p>
+            <div id="vis2Container"></div>
+            <div class="button-container">
+                <button class="btn" id="vis2salary" onclick="salaryVis2()">See Salaries</button>
+                <button class="btn" id="vis2tuition" onclick="tuitionVis2()">See Tuition</button>
+            </div>
+        </div>
+        <div class="s5 full" data-step="5">
+            <div class="text-box">This is the chart that shows more universities' data compared to UBC. Hover over a bar to see the difference.</div>
+        </div>
+    </div>
+    <div>
+        <div class="full vis-container">
+          <h3 class="vis-title" id="vis3title">Employee Compensation</h3>
+          <p class="vis-subtitle" id="vis3subtitle">Across 10 post-secondary institutions in BC with the highest pay</p>
+          <div id="vis3Container"></div>
+          <div class="button-container">
+            <button id="zoomOutButton">Zoom Out</button>
+            <button id="zoomInButton">Zoom In</button>
+        </div>
+        </div>
+        <div class="s6 full" data-step="6">
+          <div class="text-box">Here you can see the salary of staff members compared to the median line. Hover over each plot to view each persons details</div>
+      </div>
+    </div>
+    <div>
+        <div class="full vis-container visualization4">
+            <div class="visualization-container">
+                <h3 class="vis-title" id="vis4title">Compare Salaries Between Individuals</h3>
+                <p class="vis-subtitle" id="vis4subtitle">A chart showing all of the entries in the dataset.</p>
+                <div id="vis4Container"></div>
+            </div>
+            <div class="input-container">
+                <label for="facultySearch">Search for a faculty member:</label>
+                <input type="search" name="facultySearch" id="vis4faculty">
+                <!-- implement showing where they're from here -->
+            </div>
+        </div>
+        <div class="full s7" data-step="7">
+            <div class="text-box">Know someone working as university faculty? Search for a name in the search bar below to see how they stack up against the averages!</div>
+        </div>
+    </div>
+    <div class="full text-only" data-step="8">
+        <h2>Concluding Header Goes Here</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum obcaecati tempora possimus temporibus, odit, minus labore et animi, facere consequatur laboriosam error quae explicabo minima at impedit. Debitis quo excepturi facilis ratione sit unde possimus culpa autem molestias? Nihil, soluta deserunt! Voluptatem sapiente saepe maxime beatae! Alias temporibus itaque aspernatur.</p>
+    </div>
+    <div class="full text-only" data-step="9">
+        <h2>Credits</h2>
+        <ul>
+            <li>
+                <p>2020/2021 salaries from <a href="https://github.com/vs-postmedia/public-sector-salary-data/blob/main/data/public_sector_salary-fy20_21/public_sector_salary-fy20_21-universities.csv">Vancouver Sun</a></p>
+            </li>
+            <li>
+                <p>2022/2023 headcount in post-sec institution from  <a href=" https://catalogue.data.gov.bc.ca/dataset/domestic-and-international-student-headcount-by-economic-development-region-and-institution ">bc government</a></p>
+            </li>
+            <li>
+                <p>2022/2023 cost of tuition from the <a href="https://www2.gov.bc.ca/gov/content/education-training/post-secondary-education/data-research/cost-of-post-secondary-education">bc government</a></p>
+            </li>
+            <li>
+                <p>ftes (full time enrollments) from <a href=" https://catalogue.data.gov.bc.ca/dataset/full-time-equivalent-enrolment-targets-at-public-post-secondary-institutions ">bc government</a></p>
+            </li>
+        </ul>
+    </div>
+    <div class="mobile-buttons">
+      <button id="prev-step">Previous</button>
+      <button id="next-step">Next</button>
+    </div>
+    <!-- Include the D3.js library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="module" src="scroll.js"></script>
+    <script type="module" src="vis-one.js"></script>
+    <script type="module" src="vis-two.js"></script>
+    <script type="module" src="vis-three.js"></script>
+    <script type="module" src="vis-four.js"></script>
+</body>
+</html>
